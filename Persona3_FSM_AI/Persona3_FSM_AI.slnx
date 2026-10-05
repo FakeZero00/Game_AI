@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Persona3_FSM_AI.vcxproj" Id="7d266c29-2bc3-419f-82a3-01dfdafff81e" />
+</Solution>

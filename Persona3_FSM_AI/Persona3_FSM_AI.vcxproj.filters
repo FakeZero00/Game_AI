@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{da80278c-15bd-466f-9a5d-aa6d6ef731cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Header">
+      <UniqueIdentifier>{771ada36-b645-4214-8146-4b360f3e89d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility\Source">
+      <UniqueIdentifier>{5f9559c9-556f-4187-94a7-867bc4ed78e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character">
+      <UniqueIdentifier>{41a6c935-4d33-46e7-8bcd-c0507e416062}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character\Yuki_Makoto">
+      <UniqueIdentifier>{16137553-31ca-4fbf-8229-972643eff66c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructure">
+      <UniqueIdentifier>{aae5b6dc-2b37-46e1-84ff-e4a6d6a0f21e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructure\Header">
+      <UniqueIdentifier>{b55a8efe-c465-43f3-968f-0519e0be6263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character\Aegis">
+      <UniqueIdentifier>{df2be183-0d42-4e3a-83a1-44a9b939caef}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\Yuki_Makoto\Yuki_Makoto_States.cpp">
+      <Filter>Character\Yuki_Makoto</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\GlobalState.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\Aegis\Aegis_States.cpp">
+      <Filter>Character\Aegis</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Utility\State.h">
+      <Filter>Utility\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\StateMachine.h">
+      <Filter>Utility\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStructure\AIEntity.h">
+      <Filter>DataStructure\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Yuki_Makoto\Yuki_Makoto.h">
+      <Filter>Character\Yuki_Makoto</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Yuki_Makoto\Yuki_Makoto_States.h">
+      <Filter>Character\Yuki_Makoto</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\GlobalState.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStructure\Day.h">
+      <Filter>DataStructure\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStructure\DayTime.h">
+      <Filter>DataStructure\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Aegis\Aegis.h">
+      <Filter>Character\Aegis</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Aegis\Aegis_States.h">
+      <Filter>Character\Aegis</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
