@@ -8,6 +8,7 @@ using namespace std;
 
 class Yuki_Makoto;
 class Aegis;
+class Yamagishi_Fuka;
 
 //============================게임 월드 전역 상태==============================
 class GameWorld {
@@ -96,6 +97,41 @@ public:
 	void Execute(Aegis* entity) override;
 	//void Exit(Aegis* entity) override;
 	void OnMessage(Aegis* entity, const string message) override;
+
+	Day GetCurrentDay() const { return currentDay; }
+	DayTime GetCurrentTime() const { return currentTime; }
+	bool GetYukiInteractionSignal() const { return yukiInteractionSignal; }
+	void SetYukiInteractionSignal(bool val) { yukiInteractionSignal = val; }
+
+	void CallTimeSignal() { timeChangeSignal = true; }
+	void CallDaySignal() { dayChangeSignal = true; }
+};
+
+//========================야마기시 후카 전역 상태==============================
+
+class Yamagishi_Fuka_GlobalState : public State<Yamagishi_Fuka> {
+private:
+	Day currentDay = Day::Sunday; // 현재 요일을 나타내는 멤버 변수
+	DayTime currentTime = DayTime::Night; // 현재 시간을 나타내는 멤버 변수
+	bool dayChangeSignal = false;
+	bool timeChangeSignal = false;
+
+	bool yukiInteractionSignal = false;
+
+	Yamagishi_Fuka_GlobalState() = default;
+
+	//복사 생성자와 대입 연산자 private로 선언하여 외부에서 접근하지 못하도록 함
+	Yamagishi_Fuka_GlobalState(const Yamagishi_Fuka_GlobalState&);
+	Yamagishi_Fuka_GlobalState& operator=(const Yamagishi_Fuka_GlobalState&);
+
+public:
+	//싱글톤 패턴을 위한 인스턴스 접근 함수
+	static Yamagishi_Fuka_GlobalState* Instance();
+
+	//void Enter(Yamagishi_Fuka* entity) override;
+	void Execute(Yamagishi_Fuka* entity) override;
+	//void Exit(Yamagishi_Fuka* entity) override;
+	void OnMessage(Yamagishi_Fuka* entity, const string message) override;
 
 	Day GetCurrentDay() const { return currentDay; }
 	DayTime GetCurrentTime() const { return currentTime; }
