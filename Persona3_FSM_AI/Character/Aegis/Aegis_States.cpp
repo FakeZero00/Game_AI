@@ -18,7 +18,7 @@ void Aegis_State_Sleeping::Enter(Aegis* entity) {}
 void Aegis_State_Sleeping::Execute(Aegis* entity) {
 	Aegis_GlobalState* globalState = static_cast<Aegis_GlobalState*>(entity->GetFSM()->GetGlobalState());
 	// 취침 상태에서 실행될 로직
-	cout << "아이기스: 전원을 휴면 상태로 전환합니다." << endl;
+	cout << "아이기스 : 전원을 휴면 상태로 전환합니다." << endl;
 	globalState->CallTimeSignal();
 
 	Day nextDay = static_cast<Day>((static_cast<int>(globalState->GetCurrentDay()) + 1) % 7);
@@ -41,12 +41,12 @@ void Aegis_State_WakeUp::Execute(Aegis* entity) {
 	Aegis_GlobalState* globalState = static_cast<Aegis_GlobalState*>(entity->GetFSM()->GetGlobalState());
 
 	if (globalState->GetCurrentDay() != Day::Sunday) {
-		cout << "아이기스: 아침이 됬습니다. 학교에 갈 준비를 합니다." << endl;
-		cout << "아이기스: 학교에 도착했습니다. 수업을 들을 준비를 합니다." << endl;
+		cout << "아이기스 : 아침이 됬습니다. 학교에 갈 준비를 합니다." << endl;
+		cout << "아이기스 : 학교에 도착했습니다. 수업을 들을 준비를 합니다." << endl;
 		entity->GetFSM()->ChangeState(Aegis_State_School::Instance());
 	}
 	else {
-		cout << "아이기스: 아침이 밝았지만...오늘은 용무가 있습니다." << endl;
+		cout << "아이기스 : 아침이 밝았지만...오늘은 용무가 있습니다." << endl;
 		entity->GetFSM()->ChangeState(Aegis_State_InteractionWait::Instance());
 	}
 }
@@ -65,7 +65,7 @@ void Aegis_State_School::Enter(Aegis* entity) {}
 void Aegis_State_School::Execute(Aegis* entity) {
 	Aegis_GlobalState* globalState = static_cast<Aegis_GlobalState*>(entity->GetFSM()->GetGlobalState());
 
-	cout << "아이기스: 수업을 듣고 있는 마코토님을 지켜봅니다." << endl;
+	cout << "아이기스 : 수업을 듣고 있는 마코토님을 지켜봅니다." << endl;
 
 	globalState->CallTimeSignal();
 	entity->GetFSM()->ChangeState(Aegis_State_InteractionWait::Instance());
@@ -86,7 +86,7 @@ void Aegis_State_InteractionWait::Execute(Aegis* entity) {
 	Aegis_GlobalState* globalState = static_cast<Aegis_GlobalState*>(entity->GetFSM()->GetGlobalState());
 
 	if (globalState->GetCurrentTime() == DayTime::Morning) {
-		cout << "아이기스: 아침이 밝았지만...오늘은 용무가 있습니다." << endl;
+		cout << "아이기스 : 아침이 밝았지만...오늘은 용무가 있습니다." << endl;
 		entity->GetFSM()->ChangeState(Aegis_State_BehaviorWait::Instance());
 	}
 	else if (globalState->GetCurrentTime() == DayTime::Afternoon) {
@@ -94,12 +94,12 @@ void Aegis_State_InteractionWait::Execute(Aegis* entity) {
 			globalState->GetCurrentDay() == Day::Wednesday ||
 			globalState->GetCurrentDay() == Day::Friday ||
 			globalState->GetCurrentDay() == Day::Saturday) {
-			cout << "아이기스: 수업이 끝났습니다. 마코토님과 시간을 보내고 싶습니다만..." << endl;
+			cout << "아이기스 : 수업이 끝났습니다. 마코토님과 시간을 보내고 싶습니다만..." << endl;
 			gameWorld->Message2Makoto("Aegis_Interactable");
 			entity->GetFSM()->ChangeState(Aegis_State_BehaviorWait::Instance());
 		}
 		else {
-			cout << "아이기스: 수업이 끝났습니다...오늘은 용무가 있습니다." << endl;
+			cout << "아이기스 : 수업이 끝났습니다...오늘은 용무가 있습니다." << endl;
 			entity->GetFSM()->ChangeState(Aegis_State_TimeSpent::Instance());
 		}
 	}
@@ -108,12 +108,12 @@ void Aegis_State_InteractionWait::Execute(Aegis* entity) {
 			globalState->GetCurrentDay() == Day::Wednesday ||
 			globalState->GetCurrentDay() == Day::Friday ||
 			globalState->GetCurrentDay() == Day::Saturday) {
-			cout << "아이기스: 섀도우 타임이 다가옵니다. 마코토님, 타르타로스에 가실 건가요?" << endl;
+			cout << "아이기스 : 섀도우 타임이 다가옵니다. 마코토님, 타르타로스에 가실 건가요?" << endl;
 			gameWorld->Message2Makoto("Aegis_Interactable");
 			entity->GetFSM()->ChangeState(Aegis_State_NightBehaviorWait::Instance());
 		}
 		else {
-			cout << "아이기스: 오늘은 저녁까지 용무가 있습니다." << endl;
+			cout << "아이기스 : 오늘은 저녁까지 용무가 있습니다." << endl;
 			entity->GetFSM()->ChangeState(Aegis_State_TimeSpent::Instance());
 		}
 	}
@@ -217,7 +217,7 @@ void Aegis_State_NightBehaviorWait::Execute(Aegis* entity) {
 		entity->GetFSM()->ChangeState(Aegis_State_TartarosBattle::Instance());
 	}
 	else {
-		cout << "마코토님이 바빠보이시니 저는 혼자 시간을 보내겠습니다." << endl;
+		cout << "아이기스 : 마코토님이 바빠보이시니 저는 혼자 시간을 보내겠습니다." << endl;
 		entity->GetFSM()->ChangeState(Aegis_State_TimeSpent::Instance());
 	}
 }

@@ -10,6 +10,9 @@
 #include "Yuki_Makoto/Yuki_Makoto_States.h"
 #include "Aegis/Aegis.h"
 #include "Aegis/Aegis_States.h"
+#include "Yamagishi_Fuka/Yamagishi_Fuka.h"
+#include "Yamagishi_Fuka/Yamagishi_Fuka_States.h"
+
 using namespace std;
 //============================게임 월드 전역 상태==============================
 
@@ -54,6 +57,10 @@ void GameWorld::Message2Aegis(const string message) {
 	aegis->OnMessage(message);
 }
 
+void GameWorld::Message2Yamagishi(const string message) {
+	yamagishi->OnMessage(message);
+}
+
 //============================유키 마코토 전역 상태==============================
 
 Yuki_Makoto_GlobalState* Yuki_Makoto_GlobalState::Instance() {
@@ -81,6 +88,9 @@ void Yuki_Makoto_GlobalState::Execute(Yuki_Makoto* entity) {
 void Yuki_Makoto_GlobalState::OnMessage(Yuki_Makoto* entity, const string message) {
 	if (message == "Aegis_Interactable") {
 		aegisInteractionSignal = true;
+	}
+	else if (message == "Yamagishi_Fuka_Interactable") {
+		yamagishiInteractionSignal = true;
 	}
 }
 
@@ -111,5 +121,41 @@ void Aegis_GlobalState::Execute(Aegis* entity) {
 void Aegis_GlobalState::OnMessage(Aegis* entity, const string message) {
 	if (message == "Selected") {
 		yukiInteractionSignal = true;
+	}
+	else if (message == "Unselected") {
+		yukiInteractionSignal = false;
+	}
+}
+
+//========================야마기시 후카 전역 상태==============================
+
+Yamagishi_Fuka_GlobalState* Yamagishi_Fuka_GlobalState::Instance() {
+	static Yamagishi_Fuka_GlobalState instance;
+	return &instance;
+}
+
+void Yamagishi_Fuka_GlobalState::Execute(Yamagishi_Fuka* entity) {
+	//시간 진행
+	if (timeChangeSignal) {
+		//심야가 되면 요일을 진행
+		if (currentTime == DayTime::Night) CallDaySignal();
+
+		currentTime = static_cast<DayTime>((static_cast<int>(currentTime) + 1) % 4);
+		timeChangeSignal = false;
+	}
+
+	//요일 진행
+	if (dayChangeSignal) {
+		currentDay = static_cast<Day>((static_cast<int>(currentDay) + 1) % 7);
+		dayChangeSignal = false;
+	}
+}
+
+void Yamagishi_Fuka_GlobalState::OnMessage(Yamagishi_Fuka* entity, const string message) {
+	if (message == "Selected") {
+		yukiInteractionSignal = true;
+	}
+	else if (message == "Unselected") {
+		yukiInteractionSignal = false;
 	}
 }

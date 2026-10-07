@@ -125,6 +125,25 @@ public:
 	void Exit(Yuki_Makoto* entity) override;
 };
 
+//=====================야마기시 후카 상호작용 상태==========================
+
+class Yuki_State_YamagishiInteraction : public State<Yuki_Makoto> {
+private:
+	Yuki_State_YamagishiInteraction() = default;
+
+	//복사 생성자와 대입 연산자 private로 선언하여 외부에서 접근하지 못하도록 함
+	Yuki_State_YamagishiInteraction(const Yuki_State_YamagishiInteraction&);
+	Yuki_State_YamagishiInteraction& operator=(const Yuki_State_YamagishiInteraction&);
+
+public:
+	//싱글톤 패턴을 위한 인스턴스 접근 함수
+	static Yuki_State_YamagishiInteraction* Instance();
+
+	void Enter(Yuki_Makoto* entity) override;
+	void Execute(Yuki_Makoto* entity) override;
+	void Exit(Yuki_Makoto* entity) override;
+};
+
 //====================밤 상호작용 랜덤 선택 상태============================
 
 class Yuki_State_NightBehaviorWait : public State<Yuki_Makoto> {

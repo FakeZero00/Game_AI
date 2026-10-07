@@ -49,7 +49,6 @@ void Yuki_State_WakeUp::Execute(Yuki_Makoto* entity) {
 		cout << "아침이 밝았다. 오늘은 일요일이라 학교를 가지 않아도 된다." << endl;
 		entity->GetFSM()->ChangeState(Yuki_State_InteractionWait::Instance());
 	}
-	
 }
 
 void Yuki_State_WakeUp::Exit(Yuki_Makoto* entity) {}
@@ -128,6 +127,11 @@ void Yuki_State_BehaviorWait::Enter(Yuki_Makoto* entity) {
 		cout << "아이기스가 나와 상호작용하고 싶어하는 것 같다." << endl;
 		gameWorld->Message2Aegis("Selected");
 	}
+	//야마기시 후카 선택
+	else if (globalState->GetYamagishiInteractionSignal()) {
+		cout << "야마기시 후카가 나와 상호작용하고 싶어하는 것 같다." << endl;
+		gameWorld->Message2Yamagishi("Selected");
+	}
 }
 
 void Yuki_State_BehaviorWait::Execute(Yuki_Makoto* entity) {
@@ -136,6 +140,10 @@ void Yuki_State_BehaviorWait::Execute(Yuki_Makoto* entity) {
 	//아이기스 선택
 	if (globalState->GetAegisInteractionSignal()) {
 		entity->GetFSM()->ChangeState(Yuki_State_AegisInteraction::Instance());
+	}
+	//야마기시 후카 선택
+	else if (globalState->GetYamagishiInteractionSignal()) {
+		entity->GetFSM()->ChangeState(Yuki_State_YamagishiInteraction::Instance());
 	}
 	//선택 안함
 	else {
@@ -168,6 +176,30 @@ void Yuki_State_AegisInteraction::Execute(Yuki_Makoto* entity) {
 }
 
 void Yuki_State_AegisInteraction::Exit(Yuki_Makoto* entity) {}
+
+//=====================야마기시 후카 상호작용 상태==========================
+
+Yuki_State_YamagishiInteraction* Yuki_State_YamagishiInteraction::Instance() {
+	static Yuki_State_YamagishiInteraction instance;
+	return &instance;
+}
+
+void Yuki_State_YamagishiInteraction::Enter(Yuki_Makoto* entity) {
+	Yuki_Makoto_GlobalState* globalState = static_cast<Yuki_Makoto_GlobalState*>(entity->GetFSM()->GetGlobalState());
+
+	globalState->SetYamagishiInteractionSignal(false);
+}
+
+void Yuki_State_YamagishiInteraction::Execute(Yuki_Makoto* entity) {
+	Yuki_Makoto_GlobalState* globalState = static_cast<Yuki_Makoto_GlobalState*>(entity->GetFSM()->GetGlobalState());
+
+	cout << "후카와 얘기를 했다. 야마기시 후카와의 관계가 깊어진 기분이 든다." << endl;
+
+	globalState->CallTimeSignal();
+	entity->GetFSM()->ChangeState(Yuki_State_InteractionWait::Instance());
+}
+
+void Yuki_State_YamagishiInteraction::Exit(Yuki_Makoto* entity) {}
 
 //====================밤 상호작용 랜덤 선택 상태============================
 

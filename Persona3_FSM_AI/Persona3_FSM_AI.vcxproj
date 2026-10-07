@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClCompile Include="Character\Aegis\Aegis_States.cpp" />
     <ClCompile Include="Character\GlobalState.cpp" />
+    <ClCompile Include="Character\Yamagishi_Fuka\Yamagishi_Fuka_States.cpp" />
     <ClCompile Include="Character\Yuki_Makoto\Yuki_Makoto_States.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -152,6 +153,7 @@
     <ClInclude Include="Character\Aegis\Aegis_States.h" />
     <ClInclude Include="Character\GlobalState.h" />
     <ClInclude Include="Character\Yamagishi_Fuka\Yamagishi_Fuka.h" />
+    <ClInclude Include="Character\Yamagishi_Fuka\Yamagishi_Fuka_States.h" />
     <ClInclude Include="Character\Yuki_Makoto\Yuki_Makoto.h" />
     <ClInclude Include="Character\Yuki_Makoto\Yuki_Makoto_States.h" />
     <ClInclude Include="DataStructure\AIEntity.h" />
