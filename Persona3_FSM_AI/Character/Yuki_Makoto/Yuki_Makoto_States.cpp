@@ -122,14 +122,20 @@ Yuki_State_BehaviorWait* Yuki_State_BehaviorWait::Instance() {
 void Yuki_State_BehaviorWait::Enter(Yuki_Makoto* entity) {
 	Yuki_Makoto_GlobalState* globalState = static_cast<Yuki_Makoto_GlobalState*>(entity->GetFSM()->GetGlobalState());
 
+	//랜덤으로 커뮤니케이션 행동 선택
+	if(globalState->GetAegisInteractionSignal() && globalState->GetYamagishiInteractionSignal()) {
+		entity->GetFSM()->ChangeState(Yuki_State_CommunityRandomSelection::Instance());
+	}
 	//아이기스 선택
-	if (globalState->GetAegisInteractionSignal()) {
+	else if (globalState->GetAegisInteractionSignal()) {
 		cout << "아이기스가 나와 상호작용하고 싶어하는 것 같다." << endl;
+		cout << "(debug) 아이기스에게 선택 메세지 송신" << endl;
 		gameWorld->Message2Aegis("Selected");
 	}
 	//야마기시 후카 선택
 	else if (globalState->GetYamagishiInteractionSignal()) {
 		cout << "야마기시 후카가 나와 상호작용하고 싶어하는 것 같다." << endl;
+		cout << "(debug) 야마기시 후카에게 선택 메세지 송신" << endl;
 		gameWorld->Message2Yamagishi("Selected");
 	}
 }
@@ -152,6 +158,50 @@ void Yuki_State_BehaviorWait::Execute(Yuki_Makoto* entity) {
 }
 
 void Yuki_State_BehaviorWait::Exit(Yuki_Makoto* entity) {}
+
+//================커뮤니케이션 행동 랜덤 선택 상태=====================
+
+Yuki_State_CommunityRandomSelection* Yuki_State_CommunityRandomSelection::Instance() {
+	static Yuki_State_CommunityRandomSelection instance;
+	return &instance;
+}
+
+void Yuki_State_CommunityRandomSelection::Enter(Yuki_Makoto* entity) {
+	Yuki_Makoto_GlobalState* globalState = static_cast<Yuki_Makoto_GlobalState*>(entity->GetFSM()->GetGlobalState());
+
+	rand = urd(dre);
+	//아이기스 선택
+	if (rand < 0.5f) {
+		cout << "아이기스와 함께 시간을 보내기로 했다." << endl;
+		cout << "(debug) 아이기스에게 선택 메세지 송신" << endl;
+		gameWorld->Message2Aegis("Selected");
+		cout << "(debug) 야마기시 후카에게 미선택 메세지 송신" << endl;
+		gameWorld->Message2Yamagishi("Unselected");
+	}
+	//야마기시 후카 선택
+	else {
+		cout << "후카와 함께 시간을 보내기로 했다." << endl;
+		cout << "(debug) 아이기스에게 미선택 메세지 송신" << endl;
+		gameWorld->Message2Aegis("Unselected");
+		cout << "(debug) 야마기시 후카에게 선택 메세지 송신" << endl;
+		gameWorld->Message2Yamagishi("Selected");
+	}
+}
+
+void Yuki_State_CommunityRandomSelection::Execute(Yuki_Makoto* entity) {
+	Yuki_Makoto_GlobalState* globalState = static_cast<Yuki_Makoto_GlobalState*>(entity->GetFSM()->GetGlobalState());
+
+	//아이기스 선택
+	if (rand < 0.5f) {
+		entity->GetFSM()->ChangeState(Yuki_State_AegisInteraction::Instance());
+	}
+	//야마기시 후카 선택
+	else {
+		entity->GetFSM()->ChangeState(Yuki_State_YamagishiInteraction::Instance());
+	}
+}
+
+void Yuki_State_CommunityRandomSelection::Exit(Yuki_Makoto* entity) {}
 
 //=====================아이기스 상호작용 상태==========================
 
@@ -212,17 +262,21 @@ void Yuki_State_NightBehaviorWait::Enter(Yuki_Makoto* entity) {
 	Yuki_Makoto_GlobalState* globalState = static_cast<Yuki_Makoto_GlobalState*>(entity->GetFSM()->GetGlobalState());
 
 	//타르타로스 선택
-	if (globalState->GetAegisInteractionSignal()) {
+	if (globalState->GetAegisInteractionSignal() && globalState->GetYamagishiInteractionSignal()) {
 		cout << "모두와 함께 타르타로스로 향했다." << endl;
+		cout << "(debug) 아이기스에게 선택 메세지 송신" << endl;
+		cout << "(debug) 야마기시 후카에게 선택 메세지 송신" << endl;
 		gameWorld->Message2Aegis("Selected");
+		gameWorld->Message2Yamagishi("Selected");
 	}
 }
 
 void Yuki_State_NightBehaviorWait::Execute(Yuki_Makoto* entity) {
 	Yuki_Makoto_GlobalState* globalState = static_cast<Yuki_Makoto_GlobalState*>(entity->GetFSM()->GetGlobalState());
 
-	if (globalState->GetAegisInteractionSignal()) {
+	if (globalState->GetAegisInteractionSignal() && globalState->GetYamagishiInteractionSignal()) {
 		globalState->SetAegisInteractionSignal(false);
+		globalState->SetYamagishiInteractionSignal(false);
 
 		entity->GetFSM()->ChangeState(Yuki_State_TartarosBattle::Instance());
 	}
@@ -250,7 +304,7 @@ void Yuki_State_TartarosBattle::Execute(Yuki_Makoto* entity) {
 	entity->SetLevel(entity->GetLevel() + 1);
 
 	globalState->CallTimeSignal();
-	entity->GetFSM()->ChangeState(Yuki_State_StatusBehavior::Instance());
+	entity->GetFSM()->ChangeState(Yuki_State_InteractionWait::Instance());
 }
 
 void Yuki_State_TartarosBattle::Exit(Yuki_Makoto* entity) {}

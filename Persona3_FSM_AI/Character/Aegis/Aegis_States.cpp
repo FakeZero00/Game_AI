@@ -95,6 +95,7 @@ void Aegis_State_InteractionWait::Execute(Aegis* entity) {
 			globalState->GetCurrentDay() == Day::Friday ||
 			globalState->GetCurrentDay() == Day::Saturday) {
 			cout << "아이기스 : 수업이 끝났습니다. 마코토님과 시간을 보내고 싶습니다만..." << endl;
+			cout << "(debug) 유키 마코토에게 상호작용 가능 메세지 송신" << endl;
 			gameWorld->Message2Makoto("Aegis_Interactable");
 			entity->GetFSM()->ChangeState(Aegis_State_BehaviorWait::Instance());
 		}
@@ -109,6 +110,7 @@ void Aegis_State_InteractionWait::Execute(Aegis* entity) {
 			globalState->GetCurrentDay() == Day::Friday ||
 			globalState->GetCurrentDay() == Day::Saturday) {
 			cout << "아이기스 : 섀도우 타임이 다가옵니다. 마코토님, 타르타로스에 가실 건가요?" << endl;
+			cout << "(debug) 유키 마코토에게 상호작용 가능 메세지 송신" << endl;
 			gameWorld->Message2Makoto("Aegis_Interactable");
 			entity->GetFSM()->ChangeState(Aegis_State_NightBehaviorWait::Instance());
 		}
@@ -190,6 +192,10 @@ void Aegis_State_YukiInteraction::Execute(Aegis* entity) {
 		cout << "아이기스 : 저는...당신을 절대로 혼자 두지 않겠어요." << endl;
 		cout << "아이기스 : 설령 당신의 생명이 끝날 때가 언제 어떤 식으로 찾아오더라도..." << endl;
 		cout << "아이기스 : 저는 반드시 당신 곁에 있을게요." << endl;
+		entity->SetLikeability(entity->GetLikeability() + 1);
+	}
+	else {
+		cout << "아이기스 : 옥상에는 경치가 잘 보이니까 마음이 편해지네요." << endl;
 		entity->SetLikeability(entity->GetLikeability() + 1);
 	}
 

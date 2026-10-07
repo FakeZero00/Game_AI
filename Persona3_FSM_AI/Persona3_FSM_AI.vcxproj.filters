@@ -54,6 +54,9 @@
     <ClCompile Include="Character\Aegis\Aegis_States.cpp">
       <Filter>Character\Aegis</Filter>
     </ClCompile>
+    <ClCompile Include="Character\Yamagishi_Fuka\Yamagishi_Fuka_States.cpp">
+      <Filter>Character\Yamagishi_Fuka</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\State.h">
@@ -87,6 +90,9 @@
       <Filter>Character\Aegis</Filter>
     </ClInclude>
     <ClInclude Include="Character\Yamagishi_Fuka\Yamagishi_Fuka.h">
+      <Filter>Character\Yamagishi_Fuka</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Yamagishi_Fuka\Yamagishi_Fuka_States.h">
       <Filter>Character\Yamagishi_Fuka</Filter>
     </ClInclude>
   </ItemGroup>

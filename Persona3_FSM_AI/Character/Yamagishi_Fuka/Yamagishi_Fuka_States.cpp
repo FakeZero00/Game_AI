@@ -94,6 +94,7 @@ void Yamagishi_Fuka_State_InteractionWait::Execute(Yamagishi_Fuka* entity) {
 			globalState->GetCurrentDay() == Day::Friday ||
 			globalState->GetCurrentDay() == Day::Saturday) {
 			cout << "야마기시 후카 : 수업이 끝났네. 마코토와 시간을 보내고 싶은데..." << endl;
+			cout << "(debug) 유키 마코토에게 상호작용 가능 메세지 송신" << endl;
 			gameWorld->Message2Makoto("Yamagishi_Fuka_Interactable");
 			entity->GetFSM()->ChangeState(Yamagishi_Fuka_State_BehaviorWait::Instance());
 		}
@@ -107,6 +108,7 @@ void Yamagishi_Fuka_State_InteractionWait::Execute(Yamagishi_Fuka* entity) {
 			globalState->GetCurrentDay() == Day::Friday ||
 			globalState->GetCurrentDay() == Day::Saturday) {
 			cout << "야마기시 후카 : 섀도우 타임이 올 거야. 오늘은 타르타로스에 갈 거야?" << endl;
+			cout << "(debug) 유키 마코토에게 상호작용 가능 메세지 송신" << endl;
 			gameWorld->Message2Makoto("Yamagishi_Fuka_Interactable");
 			entity->GetFSM()->ChangeState(Yamagishi_Fuka_State_NightBehaviorWait::Instance());
 		}
@@ -191,6 +193,10 @@ void Yamagishi_Fuka_State_YukiInteraction::Execute(Yamagishi_Fuka* entity) {
 		cout << "야마기시 후카 : 여자답지 않다고 생각할지도 모르겠지만, 역시 나는 이쪽이 더 나 답다고 생각해." << endl;
 		cout << "야마기시 후카 : (이어폰을 사용하는 마코토의 표정이 좋다!)" << endl;
 		cout << "야마기시 후카 : 후후, 기뻐해주는 것 같아서 다행이야." << endl;
+		entity->SetLikeability(entity->GetLikeability() + 1);
+	}
+	else {
+		cout << "야마기시 후카 : 이렇게 둘이서 시간을 보내는 것도 오랜만이네." << endl;
 		entity->SetLikeability(entity->GetLikeability() + 1);
 	}
 

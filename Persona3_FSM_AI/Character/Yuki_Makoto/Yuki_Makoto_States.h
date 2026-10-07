@@ -106,6 +106,31 @@ public:
 	void Exit(Yuki_Makoto* entity) override;
 };
 
+//================커뮤니케이션 행동 랜덤 선택 상태=====================
+
+class Yuki_State_CommunityRandomSelection : public State<Yuki_Makoto> {
+private:
+	Yuki_State_CommunityRandomSelection() = default;
+
+	//복사 생성자와 대입 연산자 private로 선언하여 외부에서 접근하지 못하도록 함
+	Yuki_State_CommunityRandomSelection(const Yuki_State_CommunityRandomSelection&);
+	Yuki_State_CommunityRandomSelection& operator=(const Yuki_State_CommunityRandomSelection&);
+
+	//랜덤 엔진
+	float rand;
+	random_device rd;
+	default_random_engine dre{ rd() };
+	uniform_real_distribution<float> urd{ 0.0, 1.0 };
+
+public:
+	//싱글톤 패턴을 위한 인스턴스 접근 함수
+	static Yuki_State_CommunityRandomSelection* Instance();
+
+	void Enter(Yuki_Makoto* entity) override;
+	void Execute(Yuki_Makoto* entity) override;
+	void Exit(Yuki_Makoto* entity) override;
+};
+
 //=====================아이기스 상호작용 상태==========================
 
 class Yuki_State_AegisInteraction : public State<Yuki_Makoto> {

@@ -26,7 +26,7 @@ private:
 public:
 	int loop = 0;
 
-	GameWorld(Yuki_Makoto* yuki, Aegis* aegis) : yuki(yuki), aegis(aegis) {}
+	GameWorld(Yuki_Makoto* yuki, Aegis* aegis, Yamagishi_Fuka* yamagishi) : yuki(yuki), aegis(aegis), yamagishi(yamagishi) {}
 
 	Day GetCurrentDay() const { return currentDay; }
 	DayTime GetCurrentTime() const { return currentTime; }

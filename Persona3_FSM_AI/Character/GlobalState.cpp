@@ -29,17 +29,22 @@ void GameWorld::PrintCurrentTime() {
 void GameWorld::Update() {
 	Yuki_Makoto_GlobalState* yukiGlobalState = static_cast<Yuki_Makoto_GlobalState*>(yuki->GetFSM()->GetGlobalState());
 	Aegis_GlobalState* aegisGlobalState = static_cast<Aegis_GlobalState*>(aegis->GetFSM()->GetGlobalState());
+	Yamagishi_Fuka_GlobalState* yamagishiGlobalState = static_cast<Yamagishi_Fuka_GlobalState*>(yamagishi->GetFSM()->GetGlobalState());
 
 	yukiGlobalState->Execute(yuki);
 	aegisGlobalState->Execute(aegis);
+	yamagishiGlobalState->Execute(yamagishi);
+
 
 	if(yukiGlobalState->GetCurrentTime() != currentTime &&
-		aegisGlobalState->GetCurrentTime() != currentTime) {
+		aegisGlobalState->GetCurrentTime() != currentTime &&
+		yamagishiGlobalState->GetCurrentTime() != currentTime) {
 		currentTime = static_cast<DayTime>((static_cast<int>(currentTime) + 1) % 4);
 		printTimeSignal = true;
 	}
 	if (yukiGlobalState->GetCurrentDay() != currentDay &&
-		aegisGlobalState->GetCurrentDay() != currentDay) {
+		aegisGlobalState->GetCurrentDay() != currentDay &&
+		yamagishiGlobalState->GetCurrentDay() != currentDay) {
 		currentDay = static_cast<Day>((static_cast<int>(currentDay) + 1) % 7);
 		printTimeSignal = true;
 	}
