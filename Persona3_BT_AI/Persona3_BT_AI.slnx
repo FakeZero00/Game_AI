@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Persona3_BT_AI.vcxproj" />
+  <Project Path="Persona3_BT_AI.vcxproj" Id="29313b7e-a83d-435f-a1d4-5f82bfb67fe3" />
 </Solution>

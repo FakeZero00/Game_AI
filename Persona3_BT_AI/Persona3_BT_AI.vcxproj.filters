@@ -13,5 +13,63 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{bad425d7-6cd7-40f6-af91-e924be9da786}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataStructure">
+      <UniqueIdentifier>{cac06bcf-25bf-480c-b377-7b08f771e9cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character">
+      <UniqueIdentifier>{f47e0a45-f328-41a5-a0bb-cf977be2efdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character\Yuki_Makoto">
+      <UniqueIdentifier>{bec134e7-05f7-4a87-8944-2758bbd8a788}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character\Aegis">
+      <UniqueIdentifier>{9d1bfb97-d0a2-41a4-aec9-ff474de22512}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\Yuki_Makoto\Yuki_Makoto_Behaviors.cpp">
+      <Filter>Character\Yuki_Makoto</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\GlobalState.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\Aegis\Aegis_Behaviors.cpp">
+      <Filter>Character\Aegis</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Utility\BehaviorTree.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStructure\AIEntity.h">
+      <Filter>DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStructure\Day.h">
+      <Filter>DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStructure\DayTime.h">
+      <Filter>DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Yuki_Makoto\Yuki_Makoto.h">
+      <Filter>Character\Yuki_Makoto</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Yuki_Makoto\Yuki_Makoto_Behaviors.h">
+      <Filter>Character\Yuki_Makoto</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\GlobalState.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Aegis\Aegis.h">
+      <Filter>Character\Aegis</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Aegis\Aegis_Behaviors.h">
+      <Filter>Character\Aegis</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
