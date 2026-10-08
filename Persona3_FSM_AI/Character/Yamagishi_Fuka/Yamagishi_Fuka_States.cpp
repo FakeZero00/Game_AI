@@ -1,3 +1,4 @@
+//2022182034 ÀÓ¼ºÁø
 #include "Yamagishi_Fuka_States.h"
 
 #include <iostream>

@@ -1,5 +1,5 @@
+//2022182034 임성진
 #pragma once
-
 #include "State.h"
 
 #include <random>

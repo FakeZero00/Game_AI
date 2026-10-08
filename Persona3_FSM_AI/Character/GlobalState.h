@@ -1,6 +1,7 @@
 #pragma once
 #include "State.h"
 
+//2022182034 임성진
 #include <string>
 #include "Day.h"
 #include "DayTime.h"

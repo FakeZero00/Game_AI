@@ -19,9 +19,6 @@
     <Filter Include="Utility\Header">
       <UniqueIdentifier>{771ada36-b645-4214-8146-4b360f3e89d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility\Source">
-      <UniqueIdentifier>{5f9559c9-556f-4187-94a7-867bc4ed78e7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Character">
       <UniqueIdentifier>{41a6c935-4d33-46e7-8bcd-c0507e416062}</UniqueIdentifier>
     </Filter>

@@ -1,3 +1,4 @@
+//2022182034 임성진
 #include <iostream>
 #include <windows.h>
 
@@ -16,6 +17,8 @@ int main() {
 
 	int delay = 100;
 	int loopCount = 1;
+	
+	cout << "2022182034 임성진 : FSM AI 실행 화면" << endl;
 
 	//일주일 동안 시뮬레이션
 	while (gameWorld->loop < loopCount + 2) {
