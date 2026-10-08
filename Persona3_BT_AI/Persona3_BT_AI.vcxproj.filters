@@ -28,6 +28,9 @@
     <Filter Include="Character\Aegis">
       <UniqueIdentifier>{9d1bfb97-d0a2-41a4-aec9-ff474de22512}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Character\Yamagishi_Fuka">
+      <UniqueIdentifier>{19fb7b14-9571-40ac-992a-e734d1f7c6ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -41,6 +44,9 @@
     </ClCompile>
     <ClCompile Include="Character\Aegis\Aegis_Behaviors.cpp">
       <Filter>Character\Aegis</Filter>
+    </ClCompile>
+    <ClCompile Include="Character\Yamagishi_Fuka\Yamagishi_Fuka_Behaviors.cpp">
+      <Filter>Character\Yamagishi_Fuka</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -70,6 +76,12 @@
     </ClInclude>
     <ClInclude Include="Character\Aegis\Aegis_Behaviors.h">
       <Filter>Character\Aegis</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Yamagishi_Fuka\Yamagishi_Fuka.h">
+      <Filter>Character\Yamagishi_Fuka</Filter>
+    </ClInclude>
+    <ClInclude Include="Character\Yamagishi_Fuka\Yamagishi_Fuka_Behaviors.h">
+      <Filter>Character\Yamagishi_Fuka</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
