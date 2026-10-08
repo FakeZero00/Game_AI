@@ -41,6 +41,8 @@ bool IsInteractionable(Aegis* entity) {
 class Aegis_Action_WakeUp : public BehaviorNode<Aegis> {
 public:
 	BehaviorStatus Tick(Aegis* entity) override {
+		entity->yukiInteractionSignal = -1; // 신호 초기화
+
 		if (entity->currentDay != Day::Sunday) {
 			cout << "아이기스 : 아침이 됬습니다. 학교에 갈 준비를 합니다." << endl;
 			cout << "아이기스 : 학교에 도착했습니다. 수업을 들을 준비를 합니다." << endl;
@@ -79,6 +81,7 @@ public:
 class Aegis_Action_TimeSpent : public BehaviorNode<Aegis> {
 	BehaviorStatus Tick(Aegis* entity) override {
 		cout << "아이기스는 시간을 보내고 있다." << endl;
+		entity->yukiInteractionSignal = -1; // 신호 초기화
 
 		entity->progressTime();
 		return Success;
@@ -97,6 +100,7 @@ class Aegis_Action_WaitForYuki : public BehaviorNode<Aegis> {
 			}
 			else if (entity->yukiInteractionSignal == 0) {
 				cout << "마코토님이 바빠보이시니 저는 혼자 시간을 보내겠습니다." << endl;
+				entity->yukiInteractionSignal = -1; // 신호 초기화
 				return Failure;
 			}
 			else if (entity->yukiInteractionSignal == 1) {
@@ -116,6 +120,7 @@ class Aegis_Action_WaitForYuki : public BehaviorNode<Aegis> {
 			}
 			else if (entity->yukiInteractionSignal == 0) {
 				cout << "마코토님이 바빠보이시니 저는 혼자 시간을 보내겠습니다." << endl;
+				entity->yukiInteractionSignal = -1; // 신호 초기화
 				return Failure;
 			}
 			else if (entity->yukiInteractionSignal == 1) {

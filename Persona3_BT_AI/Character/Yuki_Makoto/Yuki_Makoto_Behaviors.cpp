@@ -28,6 +28,27 @@ bool IsSunday(Yuki_Makoto* entity) {
 	return entity->currentDay == Day::Sunday;
 }
 
+bool IsBothInteractionable(Yuki_Makoto* entity) {
+	if (entity->currentTime == DayTime::Morning || entity->currentTime == DayTime::Afternoon) {
+		return (entity->aegisInteractionSiganl != -1 && entity->aegisInteractionSiganl != 0) &&
+			(entity->yamagishiInteractionSignal != -1 && entity->yamagishiInteractionSignal != 0);
+	}
+	else {
+		if ((entity->aegisInteractionSiganl != -1 && entity->aegisInteractionSiganl != 0) &&
+			(entity->yamagishiInteractionSignal != -1 && entity->yamagishiInteractionSignal != 0)) {
+			cout << "모두와 함께 타르타로스에 가기로 했다." << endl;
+			gameWorld->Message2Aegis("Selected");
+			gameWorld->Message2Yamagishi("Selected");
+			return true;
+		}
+		else {
+			gameWorld->Message2Aegis("Unselected");
+			gameWorld->Message2Yamagishi("Unselected");
+			return false;
+		}
+	}
+}
+
 bool IsAegisInteractionable(Yuki_Makoto* entity) {
 	//cout << "아이기스와 상호작용 가능한지 확인 중... : " << entity->aegisInteractionSiganl << endl;
 	if (entity->aegisInteractionSiganl != -1 && entity->aegisInteractionSiganl != 0) {
@@ -35,6 +56,21 @@ bool IsAegisInteractionable(Yuki_Makoto* entity) {
 			if (entity->currentTime == DayTime::Afternoon) cout << "아이기스와 시간을 보내기로 했다." << endl;
 			else if (entity->currentTime == DayTime::Evening) cout << "아이기스와 타르타로스에 가기로 했다." << endl;
 			gameWorld->Message2Aegis("Selected");
+			gameWorld->Message2Yamagishi("Unselected");
+		}
+		return true;
+	};
+	return false;
+}
+
+bool IsYamagishiInteractionable(Yuki_Makoto* entity) {
+	//cout << "야마기시 후카와 상호작용 가능한지 확인 중... : " << entity->yamagishiInteractionSignal << endl;
+	if (entity->yamagishiInteractionSignal != -1 && entity->yamagishiInteractionSignal != 0) {
+		if (entity->yamagishiInteractionSignal == 1) {
+			if (entity->currentTime == DayTime::Afternoon) cout << "야마기시 후카와 시간을 보내기로 했다." << endl;
+			else if (entity->currentTime == DayTime::Evening) cout << "야마기시 후카와 타르타로스에 가기로 했다." << endl;
+			gameWorld->Message2Aegis("Unselected");
+			gameWorld->Message2Yamagishi("Selected");
 		}
 		return true;
 	};
@@ -155,6 +191,27 @@ public:
 	}
 };
 
+//랜덤 상호작용 액션 노드
+class Yuki_Action_RandomInteraction : public BehaviorNode<Yuki_Makoto> {
+	BehaviorStatus Tick(Yuki_Makoto* entity) override {
+		if (entity->aegisInteractionSiganl == 1 && entity->yamagishiInteractionSignal == 1) {
+			if (entity->tempRand < 0.5f) {
+				cout << "아이기스와 시간을 보내기로 했다." << endl;
+				gameWorld->Message2Aegis("Selected");
+				gameWorld->Message2Yamagishi("Unselected");
+			}
+			else {
+				cout << "후카와 시간을 보내기로 했다." << endl;
+				gameWorld->Message2Aegis("Unselected");
+				gameWorld->Message2Yamagishi("Selected");
+			}
+
+			return Success;
+		}
+		else return Failure;
+	}
+};
+
 //아이기스 상호작용 액션 노드
 class Yuki_Action_AegisInteraction : public BehaviorNode<Yuki_Makoto> {
 	BehaviorStatus Tick(Yuki_Makoto* entity) override {
@@ -169,6 +226,25 @@ class Yuki_Action_AegisInteraction : public BehaviorNode<Yuki_Makoto> {
 			entity->progressTime();
 			return Success;
 		}
+		else return Failure;
+	}
+};
+
+//야마기시 후카 상호작용 액션 노드
+class Yuki_Action_YamagishiInteraction : public BehaviorNode<Yuki_Makoto> {
+	BehaviorStatus Tick(Yuki_Makoto* entity) override {
+		if (entity->yamagishiInteractionSignal == 2) {
+			cout << "야마기시 후카와 얘기를 하고 있다..." << endl;
+			return Running;
+		}
+		else if (entity->yamagishiInteractionSignal == 3) {
+			cout << "후카와 얘기를 했다. 야마기시 후카와의 관계가 깊어진 기분이 든다." << endl;
+			entity->yamagishiInteractionSignal = -1; // 신호 초기화
+
+			entity->progressTime();
+			return Success;
+		}
+		else return Failure;
 	}
 };
 
@@ -184,6 +260,7 @@ class Yuki_Action_Tartarus : public BehaviorNode<Yuki_Makoto> {
 			cout << "레벨이 상승했다." << endl;
 			entity->SetLevel(entity->GetLevel() + 1);
 			entity->aegisInteractionSiganl = -1; // 신호 초기화
+			entity->yamagishiInteractionSignal = -1; // 신호 초기화
 
 			entity->progressTime();
 			return Success;
@@ -216,13 +293,34 @@ BehaviorNode<Yuki_Makoto>* CreateYukiMakotoBehaviorTree() {
 	statusRandomSelector->AddChild(new Yuki_Action_Karaoke());
 	statusRandomSelector->AddChild(new Yuki_Action_Study());
 
+	//아이기스, 후카 랜덤 선택 분기(셀렉터 노드)
+	SelectorNode<Yuki_Makoto>* randomInteractionSelector = new SelectorNode<Yuki_Makoto>();
+	randomInteractionSelector->AddChild(new Yuki_Action_RandomInteraction());
+	randomInteractionSelector->AddChild(new Yuki_Action_AegisInteraction());
+	randomInteractionSelector->AddChild(new Yuki_Action_YamagishiInteraction());
+
+	//커뮤니케이션 랜덤 선택 분기(시퀀스 노드)
+	SequenceNode<Yuki_Makoto>* randomInteraction = new SequenceNode<Yuki_Makoto>();
+	randomInteraction->AddChild(new Yuki_Action_RandomChoice());
+	randomInteraction->AddChild(randomInteractionSelector);
+
+	//아이기스, 후카 동시 감지(시퀀스 노드)
+	SequenceNode<Yuki_Makoto>* bothDetection = MakeSequence(new ConditionNode<Yuki_Makoto>(IsBothInteractionable));
+	bothDetection->AddChild(randomInteraction);
+
 	//아이기스 감지(시퀀스 노드)
 	SequenceNode<Yuki_Makoto>* aegisDetection = MakeSequence(new ConditionNode<Yuki_Makoto>(IsAegisInteractionable));
 	aegisDetection->AddChild(new Yuki_Action_AegisInteraction());
 
-	//커뮤니케이션 행동 가능 여부 분기(셀렉터 노드)(아이기스만 있는 상태)
+	//후카 감지(시퀀스 노드)
+	SequenceNode<Yuki_Makoto>* yamagishiDetection = MakeSequence(new ConditionNode<Yuki_Makoto>(IsYamagishiInteractionable));
+	yamagishiDetection->AddChild(new Yuki_Action_YamagishiInteraction());
+
+	//커뮤니케이션 행동 가능 여부 분기(셀렉터 노드)
 	SelectorNode<Yuki_Makoto>* communicationSelector = new SelectorNode<Yuki_Makoto>();
+	communicationSelector->AddChild(bothDetection);
 	communicationSelector->AddChild(aegisDetection);
+	communicationSelector->AddChild(yamagishiDetection);
 
 	//스테이터스 행동 서브 트리
 	SequenceNode<Yuki_Makoto>* statusBehavior = new SequenceNode<Yuki_Makoto>();
@@ -257,10 +355,10 @@ BehaviorNode<Yuki_Makoto>* CreateYukiMakotoBehaviorTree() {
 	afternoonSequence->AddChild(normalBehavior);
 
 	//타르타로스(시퀀스 노드)
-	SequenceNode<Yuki_Makoto>* tartarusSequence = MakeSequence(new ConditionNode<Yuki_Makoto>(IsAegisInteractionable));
+	SequenceNode<Yuki_Makoto>* tartarusSequence = MakeSequence(new ConditionNode<Yuki_Makoto>(IsBothInteractionable));
 	tartarusSequence->AddChild(new Yuki_Action_Tartarus());
 
-	//행동 분기(셀렉터 노드)(일단 스테이터스 행동만 추가)
+	//행동 분기(셀렉터 노드)
 	SelectorNode<Yuki_Makoto>* actionSelector = new SelectorNode<Yuki_Makoto>();
 	actionSelector->AddChild(tartarusSequence);
 	actionSelector->AddChild(statusBehavior);

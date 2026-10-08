@@ -7,7 +7,7 @@
 
 #include "Yuki_Makoto/Yuki_Makoto.h"
 #include "Aegis/Aegis.h"
-//#include "Yamagishi_Fuka/Yamagishi_Fuka.h"
+#include "Yamagishi_Fuka/Yamagishi_Fuka.h"
 
 using namespace std;
 //============================게임 월드 전역 상태==============================
@@ -24,12 +24,15 @@ void GameWorld::PrintCurrentTime() {
 
 void GameWorld::Update() {
 
-
-	if(yuki->currentTime != currentTime) {
+	if(yuki->currentTime != currentTime &&
+		aegis->currentTime != currentTime &&
+		yamagishi->currentTime != currentTime) {
 		currentTime = static_cast<DayTime>((static_cast<int>(currentTime) + 1) % 4);
 		printTimeSignal = true;
 	}
-	if (yuki->currentDay != currentDay) {
+	if (yuki->currentDay != currentDay &&
+		aegis->currentDay != currentDay &&
+		yamagishi->currentDay != currentDay) {
 		currentDay = static_cast<Day>((static_cast<int>(currentDay) + 1) % 7);
 		printTimeSignal = true;
 	}
@@ -47,6 +50,6 @@ void GameWorld::Message2Aegis(const string message) {
 	aegis->OnMessage(message);
 }
 
-//void GameWorld::Message2Yamagishi(const string message) {
-//	yamagishi->OnMessage(message);
-//}
+void GameWorld::Message2Yamagishi(const string message) {
+	yamagishi->OnMessage(message);
+}

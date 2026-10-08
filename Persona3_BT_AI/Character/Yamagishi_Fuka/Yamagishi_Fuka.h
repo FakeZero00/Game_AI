@@ -4,6 +4,8 @@
 #include "Yamagishi_Fuka_Behaviors.h"
 #include "GlobalState.h"
 
+extern GameWorld* gameWorld; // 게임 월드 객체에 대한 전역 포인터
+
 class Yamagishi_Fuka : public AIEntity {
 private:
 	BehaviorNode<Yamagishi_Fuka>* behaviorTree;
@@ -33,7 +35,9 @@ public:
 
 	//Update 함수
 	void Update() override {
-		behaviorTree->Tick(this);
+		if (currentTime == gameWorld->GetCurrentTime() && currentDay == gameWorld->GetCurrentDay()) {
+			behaviorTree->Tick(this);
+		}
 	}
 
 	//메시지 처리 함수

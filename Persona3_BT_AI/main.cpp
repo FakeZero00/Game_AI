@@ -3,7 +3,7 @@
 
 #include "Character/Yuki_Makoto/Yuki_Makoto.h"
 #include "Character/Aegis/Aegis.h"
-//#include "Character/Yamagishi_Fuka/Yamagishi_Fuka.h"
+#include "Character/Yamagishi_Fuka/Yamagishi_Fuka.h"
 #include "Character/GlobalState.h"
 
 GameWorld* gameWorld;
@@ -11,8 +11,8 @@ GameWorld* gameWorld;
 int main() {
 	Yuki_Makoto* yuki = new Yuki_Makoto();
 	Aegis* aegis = new Aegis();
-	//Yamagishi_Fuka* yamagishi = new Yamagishi_Fuka();
-	gameWorld = new GameWorld(yuki, aegis);
+	Yamagishi_Fuka* yamagishi = new Yamagishi_Fuka();
+	gameWorld = new GameWorld(yuki, aegis, yamagishi);
 
 	int delay = 100;
 	int loopCount = 1;
@@ -25,8 +25,8 @@ int main() {
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 14);
 		aegis->Update();
 
-		/*SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
-		yamagishi->Update();*/
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+		yamagishi->Update();
 
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 3);
 		yuki->Update();
@@ -54,7 +54,6 @@ int main() {
 		cout << "[영겁]의 궁극의 힘, 그대 안에 충만하기를..." << endl;
 	}
 
-	/*
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
 	cout << "야마기시 후카의 스테이터스: " << endl;
 	cout << "레벨: " << yamagishi->GetLevel() << ", 호감도: " << yamagishi->GetLikeability() << endl;
@@ -65,7 +64,7 @@ int main() {
 		cout << "이로써 [여법황]의 힘은, 가장 깊은 곳까지 열렸도다." << endl;
 		cout << "우리, 그대에게 내리노니..." << endl;
 		cout << "[여법황]의 궁극의 힘, 그대 안에 충만하기를..." << endl;
-	}*/
+	}
 
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 	system("pause");

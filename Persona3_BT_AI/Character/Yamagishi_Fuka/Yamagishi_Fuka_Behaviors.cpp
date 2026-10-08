@@ -30,7 +30,6 @@ bool IsSunday(Yamagishi_Fuka* entity) {
 
 bool IsInteractionable(Yamagishi_Fuka* entity) {
 	return (entity->currentDay == Day::Monday ||
-			entity->currentDay == Day::Wednesday ||
 			entity->currentDay == Day::Friday ||
 			entity->currentDay == Day::Saturday);
 }
@@ -41,6 +40,8 @@ bool IsInteractionable(Yamagishi_Fuka* entity) {
 class Yamagishi_Fuka_Action_WakeUp : public BehaviorNode<Yamagishi_Fuka> {
 public:
 	BehaviorStatus Tick(Yamagishi_Fuka* entity) override {
+		entity->yukiInteractionSignal = -1; // 신호 초기화
+
 		if (entity->currentDay != Day::Sunday) {
 			cout << "야마기시 후카 : 아침이네. 학교에 갈 준비를 하자." << endl;
 			cout << "야마기시 후카 : 학교에 도착! 오늘 수업은..." << endl;
@@ -79,6 +80,7 @@ public:
 class Yamagishi_Fuka_Action_TimeSpent : public BehaviorNode<Yamagishi_Fuka> {
 	BehaviorStatus Tick(Yamagishi_Fuka* entity) override {
 		cout << "후카는 시간을 보내고 있다." << endl;
+		entity->yukiInteractionSignal = -1; // 신호 초기화
 
 		entity->progressTime();
 		return Success;
@@ -97,6 +99,7 @@ class Yamagishi_Fuka_Action_WaitForYuki : public BehaviorNode<Yamagishi_Fuka> {
 			}
 			else if (entity->yukiInteractionSignal == 0) {
 				cout << "야마기시 후카 : 마코토, 바빠 보이네...어쩔 수 없지." << endl;
+				entity->yukiInteractionSignal = -1; // 신호 초기화
 				return Failure;
 			}
 			else if (entity->yukiInteractionSignal == 1) {
@@ -115,7 +118,8 @@ class Yamagishi_Fuka_Action_WaitForYuki : public BehaviorNode<Yamagishi_Fuka> {
 				return Running;
 			}
 			else if (entity->yukiInteractionSignal == 0) {
-				cout << "야마기시 후카 : 오늘은 저녁까지 볼 일이 있어서 타르타로스는 쉬어 줘." << endl;
+				cout << "야마기시 후카 : 마코토, 바빠 보이네...어쩔 수 없지." << endl;
+				entity->yukiInteractionSignal = -1; // 신호 초기화
 				return Failure;
 			}
 			else if (entity->yukiInteractionSignal == 1) {
@@ -202,7 +206,7 @@ SelectorNode<Yamagishi_Fuka>* MakeSelector(BehaviorNode<Yamagishi_Fuka>* action)
 	return selector;
 }
 
-BehaviorNode<Yamagishi_Fuka>* CreateYamagishi_FukaBehaviorTree() {
+BehaviorNode<Yamagishi_Fuka>* CreateYamagishiBehaviorTree() {
 	SelectorNode<Yamagishi_Fuka>* root = new SelectorNode<Yamagishi_Fuka>();
 
 	//============================행동 트리 구성===========================

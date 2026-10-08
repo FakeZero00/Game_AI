@@ -8,6 +8,8 @@
 #include <iostream>
 using namespace std;
 
+extern GameWorld* gameWorld; // 게임 월드 객체에 대한 전역 포인터
+
 class Yuki_Makoto : public AIEntity {
 private:
 	BehaviorNode<Yuki_Makoto>* behaviorTree;
@@ -24,6 +26,7 @@ public:
 	DayTime currentTime = DayTime::Night;	// 현재 시간
 	float tempRand;							// 랜덤 값 임시 저장
 	int aegisInteractionSiganl = -1;		//아이기스 상호작용 준비 신호(-1: 신호 없음, 0: 상호작용 불가능, 1: 상호작용 가능, 상호작용 중, 2: 상호작용 완료)
+	int yamagishiInteractionSignal = -1;		//야마기시 상호작용 준비 신호(-1: 신호 없음, 0: 상호작용 불가능, 1: 상호작용 가능, 상호작용 중, 2: 상호작용 완료)
 
 	//생성자, 소멸자
 	Yuki_Makoto() {
@@ -33,7 +36,9 @@ public:
 
 	//Update 함수
 	void Update() override {
-		behaviorTree->Tick(this);
+		if (currentTime == gameWorld->GetCurrentTime() && currentDay == gameWorld->GetCurrentDay()) {
+			behaviorTree->Tick(this);
+		}
 	}
 
 	//메시지 처리 함수
@@ -49,6 +54,18 @@ public:
 		else if (message == "Aegis_InteractComplete") {
 			cout << "(debug) 아이기스와 상호작용 완료 메세지 수신" << endl;
 			aegisInteractionSiganl = 3;
+		}
+		else if (message == "Yamagishi_Fuka_Interactable") {
+			cout << "(debug) 야마기시 후카와 상호작용가능 메세지 수신" << endl;
+			yamagishiInteractionSignal = 1;
+		}
+		else if (message == "Yamagishi_Fuka_Interact") {
+			cout << "(debug) 야마기시 후카와 상호작용 중 메세지 수신" << endl;
+			yamagishiInteractionSignal = 2;
+		}
+		else if (message == "Yamagishi_Fuka_InteractComplete") {
+			cout << "(debug) 야마기시 후카와 상호작용 완료 메세지 수신" << endl;
+			yamagishiInteractionSignal = 3;
 		}
 	}
 
